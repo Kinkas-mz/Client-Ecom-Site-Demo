@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAPUTO STUDIO — Colecção 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f5f2;
+      --text: #1c1c1a;
+      --muted: #8a8880;
+      --border: #e0ddd8;
+      --surface: #ffffff;
+      --accent: #1c1c1a;
+      --radius: 2px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(247,245,242,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero product ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      padding-top: 73px;
+    }
+
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+      background: #e8e5e0;
+    }
+
+    .product-visual {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #e8e5e0 0%, #d4d0c8 100%);
+      position: relative;
+    }
+
+    /* Stylised clothing illustration using CSS */
+    .shirt-illustration {
+      position: relative;
+      width: 220px;
+      height: 280px;
+    }
+
+    .shirt-body {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 210px;
+      background: #1c1c1a;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .shirt-collar-left {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 40px solid transparent;
+      border-right: 0px solid transparent;
+      border-bottom: 70px solid #1c1c1a;
+      transform: translateX(-100%);
+    }
+
+    .shirt-collar-right {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 0px solid transparent;
+      border-right: 40px solid transparent;
+      border-bottom: 70px solid #1c1c1a;
+    }
+
+    .shirt-sleeve-left {
+      position: absolute;
+      top: 20px;
+      left: -30px;
+      width: 80px;
+      height: 50px;
+      background: #1c1c1a;
+      border-radius: 4px 0 0 8px;
+      transform: rotate(-8deg);
+      transform-origin: right center;
+    }
+
+    .shirt-sleeve-right {
+      position: absolute;
+      top: 20px;
+      right: -30px;
+      width: 80px;
+      height: 50px;
+      background: #1c1c1a;
+      border-radius: 0 4px 8px 0;
+      transform: rotate(8deg);
+      transform-origin: left center;
+    }
+
+    .shirt-detail {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 100px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 32px;
+      left: 32px;
+      background: var(--bg);
+      padding: 6px 12px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 0.5px solid var(--border);
+    }
+
+    .product-badge-new {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      background: var(--text);
+      color: var(--bg);
+      padding: 6px 12px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Product info ── */
+    .hero-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 64px;
+    }
+
+    .product-category {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .product-name em {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .product-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 340px;
+      margin: 20px 0 32px;
+      font-weight: 300;
+    }
+
+    .product-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 32px;
+    }
+
+    .product-price span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-right: 4px;
+    }
+
+    /* Size selector */
+    .size-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .size-options {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .size-opt {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.5px solid var(--border);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--surface);
+      color: var(--muted);
+    }
+
+    .size-opt:hover, .size-opt.selected {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    /* Buy button */
+    .btn-buy {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      width: 100%;
+      max-width: 320px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-buy:hover { opacity: 0.85; }
+    .btn-buy:active { transform: scale(0.99); }
+
+    .btn-buy-arrow {
+      font-size: 18px;
+      transition: transform 0.2s;
+    }
+
+    .btn-buy:hover .btn-buy-arrow { transform: translateX(4px); }
+
+    .payment-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .payment-note svg { flex-shrink: 0; }
+
+    /* ── Checkout overlay ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(28,28,26,0.5);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    .overlay.open {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .checkout-panel {
+      width: 420px;
+      height: 100vh;
+      background: var(--surface);
+      overflow-y: auto;
+      animation: slideIn 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to   { transform: translateX(0); }
+    }
+
+    .checkout-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 28px;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 10;
+    }
+
+    .checkout-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color 0.15s;
+      background: none;
+      border: none;
+      font-size: 20px;
+    }
+
+    .close-btn:hover { color: var(--text); }
+
+    .checkout-body { padding: 28px; flex: 1; }
+
+    /* Order summary */
+    .order-summary {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: var(--bg);
+      margin-bottom: 28px;
+    }
+
+    .order-thumb {
+      width: 64px;
+      height: 72px;
+      background: #e8e5e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .order-thumb-inner {
+      width: 28px;
+      height: 36px;
+      background: var(--text);
+      border-radius: 1px;
+    }
+
+    .order-details { flex: 1; }
+
+    .order-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .order-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .order-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+    }
+
+    /* Form */
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .network-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .net-opt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px;
+      border: 0.5px solid var(--border);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 400;
+      transition: all 0.15s;
+      background: var(--surface);
+      color: var(--muted);
+    }
+
+    .net-opt.selected {
+      border-color: var(--text);
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .net-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input[type="tel"] {
+      width: 100%;
+      border: 0.5px solid var(--border);
+      padding: 13px 14px 13px 52px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--surface);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="tel"]:focus { border-color: var(--text); }
+    input[type="tel"]::placeholder { color: var(--muted); }
+
+    .btn-pay {
+      width: 100%;
+      padding: 16px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-pay:hover { opacity: 0.85; }
+    .btn-pay:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .kinkas-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .kinkas-badge strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .error-msg {
+      background: #fef2f2;
+      border: 0.5px solid #fecaca;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #dc2626;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .error-msg.show { display: block; }
+
+    /* States */
+    .state { display: none; }
+    .state.active { display: block; }
+
+    /* Processing */
+    .state-center {
+      text-align: center;
+      padding: 48px 20px;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--border);
+      border-top-color: var(--text);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .state-center h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .state-center p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .open-redirect-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 28px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .open-redirect-btn:hover { opacity: 0.85; }
+
+    .ref-tag {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 5px 12px;
+      border: 0.5px solid var(--border);
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--muted);
+    }
+
+    /* Success checkmark */
+    .check-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1.5px solid #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { height: 50vh; }
+      .hero-info { padding: 40px 28px; }
+      .product-name { font-size: 38px; }
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .checkout-panel { width: 100vw; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">Maputo Studio</div>
+  <ul class="nav-links">
+    <li><a href="#">Colecção</a></li>
+    <li><a href="#">Sobre nós</a></li>
+    <li><a href="#">Lojas</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-image">
+    <div class="product-visual">
+      <div class="shirt-illustration">
+        <div class="shirt-sleeve-left"></div>
+        <div class="shirt-sleeve-right"></div>
+        <div class="shirt-collar-left"></div>
+        <div class="shirt-collar-right"></div>
+        <div class="shirt-body">
+          <div class="shirt-detail"></div>
+        </div>
+      </div>
+    </div>
+    <div class="product-badge">Colecção 2026</div>
+    <div class="product-badge-new">Novo</div>
+  </div>
+
+  <div class="hero-info">
+    <div class="product-category">Camisa · Unissexo</div>
+    <div class="product-name">
+      Camisa<br><em>Beira</em>
+    </div>
+    <p class="product-desc">
+      Algodão leve de origem local. Corte relaxado com detalhe em costura dupla. Disponível em preto e areia. Produzida em Maputo.
+    </p>
+
+    <div class="product-price"><span>MZN</span>1.200</div>
+
+    <div class="size-label">Tamanho</div>
+    <div class="size-options">
+      <div class="size-opt" onclick="selectSize(this)">XS</div>
+      <div class="size-opt selected" onclick="selectSize(this)">S</div>
+      <div class="size-opt" onclick="selectSize(this)">M</div>
+      <div class="size-opt" onclick="selectSize(this)">L</div>
+      <div class="size-opt" onclick="selectSize(this)">XL</div>
+    </div>
+
+    <button class="btn-buy" onclick="openCheckout()">
+      <span>Comprar agora</span>
+      <span class="btn-buy-arrow">→</span>
+    </button>
+
+    <div class="payment-note">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      Pagamento seguro via M-Pesa · e-Mola · mKesh
+    </div>
+  </div>
+</div>
+
+<!-- Checkout overlay -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="checkout-panel" id="checkout-panel">
+    <div class="checkout-header">
+      <div class="checkout-title">Finalizar compra</div>
+      <button class="close-btn" onclick="closeCheckout()">×</button>
+    </div>
+
+    <div class="checkout-body">
+
+      <!-- Order summary -->
+      <div class="order-summary">
+        <div class="order-thumb">
+          <div class="order-thumb-inner"></div>
+        </div>
+        <div class="order-details">
+          <div class="order-name">Camisa Beira</div>
+          <div class="order-meta">Tamanho <span id="summary-size">S</span> · Preto</div>
+          <div class="order-price">MZN 1.200</div>
+        </div>
+      </div>
+
+      <!-- FORM STATE -->
+      <div id="state-form" class="state active">
+        <div id="error-msg" class="error-msg"></div>
+
+        <label class="form-label">Rede móvel</label>
+        <div class="network-grid">
+          <div class="net-opt selected" data-network="MTN" onclick="selectNetwork(this)">
+            <div class="net-dot" style="background:#ffcc00"></div> MTN
+          </div>
+          <div class="net-opt" data-network="VODAFONE" onclick="selectNetwork(this)">
+            <div class="net-dot" style="background:#e60000"></div> Vodafone
+          </div>
+        </div>
+
+        <label class="form-label">Número de dinheiro móvel</label>
+        <div class="input-wrap">
+          <span class="input-prefix">+258</span>
+          <input type="tel" id="phone-input" placeholder="84 123 4567" maxlength="12" inputmode="numeric">
+        </div>
+
+        <button class="btn-pay" id="pay-btn" onclick="initiatePayment()">
+          Pagar MZN 1.200
+        </button>
+
+        <div class="kinkas-badge">
+          Processado por <strong>Kinkas</strong> · Infraestrutura de Pagamentos
+        </div>
+      </div>
+
+      <!-- PROCESSING STATE -->
+      <div id="state-processing" class="state">
+        <div class="state-center">
+          <div class="spinner"></div>
+          <h3>A processar</h3>
+          <p>A enviar pedido de pagamento<br>para o seu telemóvel…</p>
+        </div>
+      </div>
+
+      <!-- REDIRECT STATE -->
+      <div id="state-redirect" class="state">
+        <div class="state-center">
+          <div style="width:56px;height:56px;border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="5" y="2" width="14" height="20" rx="2"/>
+              <line x1="12" y1="18" x2="12" y2="18" stroke-linecap="round" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <h3>Confirme no telemóvel</h3>
+          <p>Abrimos a página de pagamento.<br>Introduza o PIN do M-Pesa para confirmar.</p>
+          <button class="open-redirect-btn" id="open-redirect-btn">Abrir página de pagamento</button>
+          <br>
+          <div class="ref-tag" id="ref-display"></div>
+        </div>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div id="state-success" class="state">
+        <div class="state-center">
+          <div class="check-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <h3>Pagamento confirmado</h3>
+          <p>Obrigado pela sua compra.<br>A sua Camisa Beira está a ser preparada.</p>
+          <div class="ref-tag" id="success-ref"></div>
+          <br><br>
+          <button class="open-redirect-btn" onclick="closeCheckout()" style="background:var(--bg);color:var(--text);border:0.5px solid var(--border)">
+            Continuar a comprar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = 'https://web-payments-prototype-production.up.railway.app';
+  let selectedNetwork = 'MTN';
+  let selectedSize = 'S';
+  let currentRef = null;
+  let redirectUrl = null;
+  let pollInterval = null;
+
+  function selectSize(el) {
+    document.querySelectorAll('.size-opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedSize = el.textContent;
+    document.getElementById('summary-size').textContent = selectedSize;
+  }
+
+  function selectNetwork(el) {
+    document.querySelectorAll('.net-opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedNetwork = el.dataset.network;
+  }
+
+  function openCheckout() {
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    showState('form');
+  }
+
+  function closeCheckout() {
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+    if (pollInterval) clearInterval(pollInterval);
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('overlay')) closeCheckout();
+  }
+
+  function showState(id) {
+    document.querySelectorAll('.state').forEach(s => s.classList.remove('active'));
+    document.getElementById('state-' + id).classList.add('active');
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function hideError() {
+    document.getElementById('error-msg').classList.remove('show');
+  }
+
+  function generateRef() {
+    return 'MPS' + Date.now().toString(36).toUpperCase();
+  }
+
+  async function initiatePayment() {
+    hideError();
+    const phone = document.getElementById('phone-input').value.replace(/\s/g, '');
+    if (!phone || phone.length < 9) {
+      showError('Por favor introduza um número válido.');
+      return;
+    }
+
+    document.getElementById('pay-btn').disabled = true;
+    showState('processing');
+    currentRef = generateRef();
+
+    try {
+      const res = await fetch(`${API}/payments/charge`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone,
+          network: selectedNetwork,
+          chargeType: 'mobilemoneygh',
+          amount: 50,
+          currency: 'GHS',
+          reference: currentRef,
+          email: 'cliente@maputostudio.co.mz',
+          name: 'Cliente',
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        showState('form');
+        document.getElementById('pay-btn').disabled = false;
+        showError(data.error || 'Pagamento falhou. Tente novamente.');
+        return;
+      }
+
+      redirectUrl = data.redirectUrl;
+      document.getElementById('ref-display').textContent = 'Ref: ' + currentRef;
+      document.getElementById('open-redirect-btn').onclick = () => {
+        window.open(redirectUrl, '_blank');
+        startPolling();
+      };
+
+      showState('redirect');
+
+    } catch (err) {
+      showState('form');
+      document.getElementById('pay-btn').disabled = false;
+      showError('Erro de ligação. Tente novamente.');
+    }
+  }
+
+  function startPolling() {
+    if (pollInterval) clearInterval(pollInterval);
+    pollInterval = setInterval(async () => {
+      try {
+        const res = await fetch(`${API}/payments/status/${currentRef}`);
+        const data = await res.json();
+        if (data.status === 'successful') {
+          clearInterval(pollInterval);
+          document.getElementById('success-ref').textContent = 'Ref: ' + currentRef;
+          showState('success');
+        }
+      } catch {}
+    }, 3000);
+    setTimeout(() => clearInterval(pollInterval), 300000);
+  }
+</script>
+</body>
+</html>
