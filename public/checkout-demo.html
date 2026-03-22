@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=Figtree:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f2f0eb;
+      --surface: #ffffff;
+      --text: #1a1916;
+      --muted: #9c9a94;
+      --border: #e4e1d9;
+      --accent: #1a1916;
+      --input-bg: #f8f7f4;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 40px 20px;
+    }
+
+    .checkout-wrap {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 0;
+      background: var(--surface);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.07);
+    }
+
+    /* ── Left panel — customer form ── */
+    .form-panel {
+      padding: 48px 44px;
+      border-right: 1px solid var(--border);
+    }
+
+    .brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .form-section {
+      margin-bottom: 28px;
+    }
+
+    .form-section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-row.full { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input, select {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'Figtree', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    input::placeholder { color: #c8c6bf; }
+
+    select { appearance: none; cursor: pointer; }
+
+    /* ── Right panel — order summary ── */
+    .summary-panel {
+      background: var(--bg);
+      padding: 48px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .summary-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* Editable order item */
+    .order-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .order-item-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .order-thumb {
+      width: 48px;
+      height: 52px;
+      background: var(--bg);
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .order-thumb-inner {
+      width: 20px;
+      height: 26px;
+      background: var(--accent);
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+
+    .order-meta { flex: 1; }
+
+    .order-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .order-variant {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Editable price field */
+    .price-edit-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .price-edit-label {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .price-edit-input {
+      width: 90px;
+      text-align: right;
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .price-edit-input:focus {
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    /* Totals */
+    .totals {
+      margin-top: 4px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .total-row.final {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+    .total-row.final span:last-child {
+      letter-spacing: -0.01em;
+    }
+
+    /* Currency selector */
+    .currency-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .currency-label {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .currency-select {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    /* Spacer + pay button placeholder */
+    .summary-footer {
+      margin-top: auto;
+      padding-top: 24px;
+    }
+
+    .pay-btn-placeholder {
+      width: 100%;
+      padding: 15px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: default;
+      opacity: 0.35;
+      text-align: center;
+    }
+
+    .integration-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .integration-hint code {
+      font-family: monospace;
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    /* Mobile */
+    @media (max-width: 720px) {
+      .checkout-wrap { grid-template-columns: 1fr; }
+      .form-panel { padding: 36px 28px; border-right: none; border-bottom: 1px solid var(--border); }
+      .summary-panel { padding: 32px 28px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="checkout-wrap">
+
+  <!-- Left — customer form -->
+  <div class="form-panel">
+    <div class="brand">Secure checkout</div>
+    <h1>Your details</h1>
+    <p class="subtitle">Fill in your information to complete the order.</p>
+
+    <div class="form-section">
+      <div class="form-section-title">Contact</div>
+      <div class="form-row">
+        <div class="field">
+          <label>First name</label>
+          <input type="text" placeholder="João">
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input type="text" placeholder="Sithole">
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="joao@exemplo.co.mz">
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" placeholder="+258 84 000 0000">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">Delivery address</div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Street address</label>
+          <input type="text" placeholder="Av. Eduardo Mondlane, 123">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>City</label>
+          <input type="text" placeholder="Maputo">
+        </div>
+        <div class="field">
+          <label>Province</label>
+          <select>
+            <option>Maputo Cidade</option>
+            <option>Maputo Província</option>
+            <option>Gaza</option>
+            <option>Inhambane</option>
+            <option>Sofala</option>
+            <option>Manica</option>
+            <option>Tete</option>
+            <option>Zambézia</option>
+            <option>Nampula</option>
+            <option>Cabo Delgado</option>
+            <option>Niassa</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right — order summary -->
+  <div class="summary-panel">
+    <div class="summary-title">Order summary</div>
+
+    <div class="currency-row">
+      <span class="currency-label">Currency</span>
+      <select class="currency-select" id="currency-select" onchange="updateTotals()">
+        <option value="GHS">GHS — Ghana Cedi (sandbox)</option>
+        <option value="MZN">MZN — Metical (production)</option>
+        <option value="USD">USD — US Dollar</option>
+      </select>
+    </div>
+
+    <!-- Editable order item -->
+    <div class="order-item">
+      <div class="order-item-row">
+        <div class="order-thumb">
+          <div class="order-thumb-inner"></div>
+        </div>
+        <div class="order-meta">
+          <div class="order-name">Product name</div>
+          <div class="order-variant">Qty: 1 · Size: M</div>
+        </div>
+        <div class="price-edit-wrap">
+          <span class="price-edit-label">Price</span>
+          <input
+            class="price-edit-input"
+            id="item-price"
+            type="number"
+            value="50"
+            min="1"
+            step="1"
+            oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Totals -->
+    <div class="totals">
+      <div class="total-row">
+        <span>Subtotal</span>
+        <span id="subtotal">GHS 50.00</span>
+      </div>
+      <div class="total-row">
+        <span>Shipping</span>
+        <span>Free</span>
+      </div>
+      <div class="total-row final">
+        <span>Total</span>
+        <span id="total">GHS 50.00</span>
+      </div>
+    </div>
+
+    <div class="summary-footer">
+      <!-- This button is intentionally left unstyled / inactive -->
+      <!-- You will replace this with your data-kinkas button -->
+      <div class="pay-btn-placeholder">Pay with mobile money</div>
+      <div class="integration-hint">
+        Replace button above with <code>data-kinkas</code>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function updateTotals() {
+    const price  = parseFloat(document.getElementById('item-price').value) || 0;
+    const currency = document.getElementById('currency-select').value;
+    const formatted = currency + ' ' + price.toFixed(2);
+    document.getElementById('subtotal').textContent = formatted;
+    document.getElementById('total').textContent = formatted;
+  }
+</script>
+
+</body>
+</html>
