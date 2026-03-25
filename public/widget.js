@@ -358,9 +358,11 @@
         // Map Mozambique providers to Flutterwave params.
         // mobilemoneymoz is the correct charge type — MZN support pending on Flutterwave's end.
         // GHS fallback allows sandbox testing until MZN is live.
+        // mobilemoneymoz not yet supported by Flutterwave — using mobilemoneygh as sandbox fallback.
+        // Switch to mobilemoneymoz + MPESA/EMOLA once provider agreement is in place.
         const networkMap = {
-          MPESA: { chargeType: 'mobilemoneymoz', network: 'MPESA' },
-          EMOLA: { chargeType: 'mobilemoneymoz', network: 'EMOLA' },
+          MPESA: { chargeType: 'mobilemoneygh', network: 'MTN' },
+          EMOLA: { chargeType: 'mobilemoneygh', network: 'MTN' },
         };
         const { chargeType, network } = networkMap[selectedNetwork];
 
