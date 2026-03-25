@@ -201,11 +201,11 @@
 
               <label class="knk-label">Rede móvel</label>
               <div class="knk-networks">
-                <div class="knk-net knk-selected" data-network="MTN">
-                  <div class="knk-net-dot" style="background:#ffcc00"></div> MTN
+                <div class="knk-net knk-selected" data-network="MPESA">
+                  <div class="knk-net-dot" style="background:#e60000"></div> M-Pesa
                 </div>
-                <div class="knk-net" data-network="VODAFONE">
-                  <div class="knk-net-dot" style="background:#e60000"></div> Vodafone
+                <div class="knk-net" data-network="EMOLA">
+                  <div class="knk-net-dot" style="background:#00a651"></div> e-Mola
                 </div>
               </div>
 
@@ -281,7 +281,7 @@
     const productId  = btn.dataset.productId  || null;
     const merchantId = btn.dataset.merchantId || null;
 
-    let selectedNetwork = 'MTN';
+    let selectedNetwork = 'MPESA';
     let currentRef = null;
     let redirectUrl = null;
     let pollInterval = null;
@@ -355,15 +355,24 @@
       currentRef = generateRef();
 
       try {
+        // Map Mozambique providers to Flutterwave params.
+        // mobilemoneymoz is the correct charge type — MZN support pending on Flutterwave's end.
+        // GHS fallback allows sandbox testing until MZN is live.
+        const networkMap = {
+          MPESA: { chargeType: 'mobilemoneymoz', network: 'MPESA' },
+          EMOLA: { chargeType: 'mobilemoneymoz', network: 'EMOLA' },
+        };
+        const { chargeType, network } = networkMap[selectedNetwork];
+
         const res = await fetch(`${API}/payments/charge`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             phone,
-            network: selectedNetwork,
-            chargeType: 'mobilemoneygh',
+            network,
+            chargeType,
             amount: Number(amount),
-            currency: currency === 'MZN' ? 'GHS' : currency, // sandbox fallback
+            currency: currency === 'MZN' ? 'GHS' : currency, // GHS fallback until Flutterwave supports MZN
             reference: currentRef,
             email: 'cliente@widget.kinkas.io',
             name: 'Cliente',
