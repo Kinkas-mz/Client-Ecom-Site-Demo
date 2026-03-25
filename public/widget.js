@@ -372,7 +372,7 @@
             network,
             chargeType,
             amount: Number(amount),
-            currency: currency === 'MZN' ? 'GHS' : currency, // GHS fallback until Flutterwave supports MZN
+            currency,
             reference: currentRef,
             email: 'cliente@widget.kinkas.io',
             name: 'Cliente',
