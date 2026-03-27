@@ -2,7 +2,7 @@
   'use strict';
 
   // ── Config ──────────────────────────────────────────────────────────────
-  const API = 'https://web-payments-prototype-production.up.railway.app';
+  const PROXY = '';
 
   // ── Styles ──────────────────────────────────────────────────────────────
   const CSS = `
@@ -366,17 +366,9 @@
         };
         const { chargeType, network } = networkMap[selectedNetwork];
 
-        const apiKey = window.KINKAS_API_KEY || '';
-        if (!apiKey) {
-          showState('form');
-          document.getElementById('knk-pay-btn').disabled = false;
-          showError('Configuração em falta. Contacte o suporte.');
-          return;
-        }
-
-        const res = await fetch(`${API}/payments/charge`, {
+        const res = await fetch(`${PROXY}/proxy/charge`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             phone,
             network,
@@ -419,9 +411,7 @@
       if (pollInterval) clearInterval(pollInterval);
       pollInterval = setInterval(async () => {
         try {
-          const res = await fetch(`${API}/payments/status/${currentRef}`, {
-            headers: { 'Authorization': 'Bearer ' + (window.KINKAS_API_KEY || '') },
-          });
+          const res = await fetch(`${PROXY}/proxy/status/${currentRef}`);
           const data = await res.json();
           if (data.status === 'successful') {
             clearInterval(pollInterval);
