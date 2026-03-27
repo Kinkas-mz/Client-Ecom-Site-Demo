@@ -366,9 +366,17 @@
         };
         const { chargeType, network } = networkMap[selectedNetwork];
 
+        const apiKey = window.KINKAS_API_KEY || '';
+        if (!apiKey) {
+          showState('form');
+          document.getElementById('knk-pay-btn').disabled = false;
+          showError('Configuração em falta. Contacte o suporte.');
+          return;
+        }
+
         const res = await fetch(`${API}/payments/charge`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
           body: JSON.stringify({
             phone,
             network,
@@ -411,7 +419,9 @@
       if (pollInterval) clearInterval(pollInterval);
       pollInterval = setInterval(async () => {
         try {
-          const res = await fetch(`${API}/payments/status/${currentRef}`);
+          const res = await fetch(`${API}/payments/status/${currentRef}`, {
+            headers: { 'Authorization': 'Bearer ' + (window.KINKAS_API_KEY || '') },
+          });
           const data = await res.json();
           if (data.status === 'successful') {
             clearInterval(pollInterval);
